@@ -52,7 +52,7 @@ public class MovieTest {
         assertThat(movie.getReleaseDate()).isEqualTo(releaseDate);
         assertThat(movie.getScreenTime()).isEqualTo(screenTime);
         assertThat(movie.getTitle()).isEqualTo(title);
-        assertThat(movie.getScreeningTypes()).isEqualTo(Collections.emptyList());
+        assertThat(movie.getMovieTypes()).isEqualTo(Collections.emptyList());
     }
 
     @Nested
