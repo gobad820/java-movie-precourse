@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 import movie.enums.MovieGrade;
-import movie.enums.ScreeningType;
+import movie.enums.MovieType;
 
 public class Movie {
 
@@ -15,7 +15,7 @@ public class Movie {
     private final String director;
     private LocalDate releaseDate;
     private final String nation;
-    private List<Enum<ScreeningType>> screeningTypes;
+    private List<Enum<MovieType>> movieTypes;
     private LocalDate crankIn;
     private LocalDate crankUp;
     private final Duration screenTime;
@@ -30,7 +30,7 @@ public class Movie {
         this.director = builder.director;
         this.releaseDate = builder.releaseDate;
         this.nation = builder.nation;
-        this.screeningTypes = builder.screeningTypes;
+        this.movieTypes = builder.screeningTypes;
         this.crankIn = builder.crankIn;
         this.crankUp = builder.crankUp;
         this.screenTime = builder.screenTime;
@@ -45,7 +45,7 @@ public class Movie {
         private String director;
         private LocalDate releaseDate;
         private String nation;
-        private List<Enum<ScreeningType>> screeningTypes;
+        private List<Enum<MovieType>> screeningTypes;
         private Duration screenTime;
         private LocalDate crankIn = LocalDate.of(1, 1, 1);
         private LocalDate crankUp = LocalDate.of(1, 1, 1);
@@ -55,7 +55,7 @@ public class Movie {
 
         public MovieBuilder(Long code, List<String> information, Enum<MovieGrade> grade,
             String title, String director, LocalDate releaseDate, String nation,
-            List<Enum<ScreeningType>> screeningTypes, Duration screenTime) {
+            List<Enum<MovieType>> screeningTypes, Duration screenTime) {
             this.code = code;
             this.information = information;
             this.grade = grade;
@@ -75,7 +75,7 @@ public class Movie {
             this.director = other.director;
             this.releaseDate = other.releaseDate;
             this.nation = other.nation;
-            this.screeningTypes = other.screeningTypes;
+            this.screeningTypes = other.movieTypes;
             this.crankIn = other.crankIn;
             this.crankUp = other.crankUp;
             this.screenTime = other.screenTime;
@@ -120,7 +120,7 @@ public class Movie {
             return this;
         }
 
-        public MovieBuilder withScreeningTypes(List<Enum<ScreeningType>> screeningTypes) {
+        public MovieBuilder withScreeningTypes(List<Enum<MovieType>> screeningTypes) {
             this.screeningTypes = screeningTypes;
             return this;
         }
@@ -174,8 +174,8 @@ public class Movie {
         return nation;
     }
 
-    public List<Enum<ScreeningType>> getScreeningTypes() {
-        return screeningTypes;
+    public List<Enum<MovieType>> getMovieTypes() {
+        return movieTypes;
     }
 
     public LocalDate getCrankIn() {
