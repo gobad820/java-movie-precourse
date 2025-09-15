@@ -1,17 +1,16 @@
 package screen;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.List;
-import movie.enums.ScreeningType;
-import screen.screening.ScreeningSchedule;
+import movie.enums.MovieType;
 import seat.Seat;
 
 public class Screen {
 
     private Long code;
-    private Enum<ScreeningType> screeningType;
+    private Enum<MovieType> screeningType;
     private List<Seat> seats;
-    private LocalDateTime operatingTime;
+    private Duration operatingTime;
     private int screenPrice;
     private ScreeningSchedule screeningSchedule;
 
@@ -29,9 +28,9 @@ public class Screen {
     public static final class ScreenBuilder {
 
         private Long code;
-        private Enum<ScreeningType> screeningType;
+        private Enum<MovieType> screeningType;
         private List<Seat> seats;
-        private LocalDateTime operatingTime;
+        private Duration operatingTime;
         private ScreeningSchedule screeningSchedule;
         private int screenPrice;
 
@@ -47,7 +46,7 @@ public class Screen {
             return this;
         }
 
-        public ScreenBuilder withScreeningType(Enum<ScreeningType> screeningType) {
+        public ScreenBuilder withScreeningType(Enum<MovieType> screeningType) {
             this.screeningType = screeningType;
             return this;
         }
@@ -57,7 +56,7 @@ public class Screen {
             return this;
         }
 
-        public ScreenBuilder withOperatingTime(LocalDateTime operatingTime) {
+        public ScreenBuilder withOperatingTime(Duration operatingTime) {
             this.operatingTime = operatingTime;
             return this;
         }
@@ -77,7 +76,7 @@ public class Screen {
         }
     }
 
-    public Screen setScreeningType(Enum<ScreeningType> screeningType) {
+    public Screen setScreeningType(Enum<MovieType> screeningType) {
         this.screeningType = screeningType;
         return this;
     }
@@ -87,7 +86,7 @@ public class Screen {
         return this;
     }
 
-    public Screen setOperatingTime(LocalDateTime operatingTime) {
+    public Screen setOperatingTime(Duration operatingTime) {
         this.operatingTime = operatingTime;
         return this;
     }
@@ -106,7 +105,7 @@ public class Screen {
         return code;
     }
 
-    public Enum<ScreeningType> getScreeningType() {
+    public Enum<MovieType> getScreeningType() {
         return screeningType;
     }
 
@@ -114,7 +113,7 @@ public class Screen {
         return seats;
     }
 
-    public LocalDateTime getOperatingTime() {
+    public Duration getOperatingTime() {
         return operatingTime;
     }
 
