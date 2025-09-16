@@ -1,61 +1,57 @@
 package screen;
 
-import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import screening.Screening;
 
 public class ScreeningSchedule { // 상영관 계획표
 
     private final Long screenId; // 상영관 코드
-    private final List<Screening> screenings; // 상영 목록
+    private final Map<Long, Screening> screenings; // 상영 목록
+    private Long screeningId = 0L;
 
-    public ScreeningSchedule(Long screenId, List<Screening> screenings) {
+    public ScreeningSchedule(Long screenId, Map<Long, Screening> screenings) {
         this.screenId = screenId;
         this.screenings = screenings;
     }
 
     public void addScreen(Screening screening) {
-        for (Screening s : screenings) {
-            if (validateScreeningTime(screening, s)) {
-                return;
+        for (Map.Entry<Long, Screening> entry : screenings.entrySet()) {
+            Screening selectedScreening = entry.getValue();
+            if (validateScreeningTime(selectedScreening, screening)) {
+                screenings.put(++screeningId, screening);
             }
         }
-        screenings.add(screening);
     }
 
-    private static boolean validateScreeningTime(Screening screening, Screening s) {
-        if (s.getStartTime().isBefore(screening.getStartTime())) {
-            return true;
+    public Screening retrieveScreening(Long screeningId) {
+        if(!screenings.containsKey(screeningId)){
+            throw new RuntimeException("해당 상영 ID는 없는 Id입니다.");
         }
-        return s.getEndTime().isAfter(screening.getEndTime());
+        return screenings.get(screeningId);
     }
 
-    public Screening retrieveScreenings(Screen screen) {
-        return screenings.stream().filter((s) -> s.equals(screen)).findFirst()
-            .orElseThrow(() -> new NoSuchElementException("없는 상영관입니다."));
-    }
 
-    public List<Screening> retrieveAllScreenings() {
-        return screenings;
-    }
-
-    public void modifyScreen(Screen exScreening, Screening newScreening) {
-        int index = screenings.indexOf(exScreening);
-        if (index == -1) {
-            return;
-        }
-        Screening existScreening = screenings.get(index);
-        changeScreenFields(newScreening, existScreening); // TODO: DTO로 변경 요망
-    }
-
-    public Screening deleteScreen(Screen screen) {
-        int index = screenings.indexOf(screen);
-        if (index == -1) {
-            throw new NoSuchElementException("없는 상영관입니다.");
-        }
-        Screening deletedScreening = screenings.get(index);
-        screenings.remove(screen);
+    public Screening deleteScreen(Long screeningId) {
+        Screening deletedScreening = retrieveScreening(screeningId);
+        screenings.remove(screeningId);
         return deletedScreening;
+    }
+
+    private static boolean validateScreeningTime(Screening existScreening, Screening screening) {
+        // 기존 영화와 겹치는 경우
+        // 이미 시작한 기존 영화가 끝나기 전에 추가하려는 영화가 시작하거나
+        if (existScreening.getStartTime().isBefore(screening.getStartTime())
+            && existScreening.getEndTime().isAfter(screening.getStartTime())) {
+            return false;
+        }
+        // 이미 시작한 새로운 영화가 기존 영화가 시작하기 전에 끝나지 않는다면
+        // 새로운 영화의 Endtime
+        if (screening.getStartTime().isBefore(existScreening.getStartTime())
+            && screening.getEndTime().isAfter(existScreening.getStartTime())) {
+            return false;
+        }
+        return true;
     }
 
     private static void changeScreenFields(Screening newScreening, Screening existScreening) {
