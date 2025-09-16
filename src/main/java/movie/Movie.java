@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 import movie.enums.MovieGrade;
-import movie.enums.MovieType;
+import movie.enums.ScreenType;
 
 public class Movie {
 
@@ -15,7 +15,7 @@ public class Movie {
     private final String director;
     private LocalDate releaseDate;
     private final String nation;
-    private List<Enum<MovieType>> movieTypes;
+    private List<Enum<ScreenType>> movieTypes;
     private LocalDate crankIn;
     private LocalDate crankUp;
     private final Duration screenTime;
@@ -45,7 +45,7 @@ public class Movie {
         private String director;
         private LocalDate releaseDate;
         private String nation;
-        private List<Enum<MovieType>> screeningTypes;
+        private List<Enum<ScreenType>> screeningTypes;
         private Duration screenTime;
         private LocalDate crankIn = LocalDate.of(1, 1, 1);
         private LocalDate crankUp = LocalDate.of(1, 1, 1);
@@ -55,7 +55,7 @@ public class Movie {
 
         public MovieBuilder(Long code, List<String> information, Enum<MovieGrade> grade,
             String title, String director, LocalDate releaseDate, String nation,
-            List<Enum<MovieType>> screeningTypes, Duration screenTime) {
+            List<Enum<ScreenType>> screeningTypes, Duration screenTime) {
             this.code = code;
             this.information = information;
             this.grade = grade;
@@ -120,7 +120,7 @@ public class Movie {
             return this;
         }
 
-        public MovieBuilder withScreeningTypes(List<Enum<MovieType>> screeningTypes) {
+        public MovieBuilder withScreeningTypes(List<Enum<ScreenType>> screeningTypes) {
             this.screeningTypes = screeningTypes;
             return this;
         }
@@ -174,7 +174,7 @@ public class Movie {
         return nation;
     }
 
-    public List<Enum<MovieType>> getMovieTypes() {
+    public List<Enum<ScreenType>> getMovieTypes() {
         return movieTypes;
     }
 

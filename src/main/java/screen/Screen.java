@@ -2,25 +2,23 @@ package screen;
 
 import java.time.Duration;
 import java.util.List;
-import movie.enums.MovieType;
+import movie.enums.ScreenType;
 import seat.Seat;
 
 public class Screen {
 
     private Long code;
-    private Enum<MovieType> screeningType;
+    private Enum<ScreenType> screenType;
     private List<Seat> seats;
     private Duration operatingTime;
-    private int screenPrice;
     private ScreeningSchedule screeningSchedule;
 
 
     public Screen(ScreenBuilder builder) {
         this.code = builder.code;
-        this.screeningType = builder.screeningType;
+        this.screenType = builder.screeningType;
         this.seats = builder.seats;
         this.operatingTime = builder.operatingTime;
-        this.screenPrice = builder.screenPrice;
         this.screeningSchedule = builder.screeningSchedule;
     }
 
@@ -28,7 +26,7 @@ public class Screen {
     public static final class ScreenBuilder {
 
         private Long code;
-        private Enum<MovieType> screeningType;
+        private Enum<ScreenType> screeningType;
         private List<Seat> seats;
         private Duration operatingTime;
         private ScreeningSchedule screeningSchedule;
@@ -46,7 +44,7 @@ public class Screen {
             return this;
         }
 
-        public ScreenBuilder withScreeningType(Enum<MovieType> screeningType) {
+        public ScreenBuilder withScreeningType(Enum<ScreenType> screeningType) {
             this.screeningType = screeningType;
             return this;
         }
@@ -76,37 +74,24 @@ public class Screen {
         }
     }
 
-    public Screen setScreeningType(Enum<MovieType> screeningType) {
-        this.screeningType = screeningType;
-        return this;
+    public void changeMovieType(Enum<ScreenType> screenType) {
+        this.screenType = screenType;
     }
 
-    public Screen setSeats(List<Seat> seats) {
-        this.seats = seats;
-        return this;
-    }
-
-    public Screen setOperatingTime(Duration operatingTime) {
+    public void changeOperatingTime(Duration operatingTime) {
         this.operatingTime = operatingTime;
-        return this;
     }
 
-    public Screen setScreenPrice(int screenPrice) {
-        this.screenPrice = screenPrice;
-        return this;
-    }
-
-    public Screen setScreeningSchedule(ScreeningSchedule screeningSchedule) {
+    public void changeScreeningSchedule(ScreeningSchedule screeningSchedule) {
         this.screeningSchedule = screeningSchedule;
-        return this;
     }
 
     public Long getCode() {
         return code;
     }
 
-    public Enum<MovieType> getScreeningType() {
-        return screeningType;
+    public Enum<ScreenType> getScreenType() {
+        return screenType;
     }
 
     public List<Seat> getSeats() {
@@ -115,10 +100,6 @@ public class Screen {
 
     public Duration getOperatingTime() {
         return operatingTime;
-    }
-
-    public int getScreenPrice() {
-        return screenPrice;
     }
 
     public ScreeningSchedule getScreeningSchedule() {

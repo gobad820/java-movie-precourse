@@ -1,6 +1,6 @@
 package movie.enums;
 
-public enum MovieType
+public enum ScreenType
 {
     TWO_DIM,
     THREE_DIM,

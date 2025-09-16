@@ -7,6 +7,7 @@ import seat.Seat;
 
 public class Screening {
 
+    private Long id;
     private Movie movie;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -68,5 +69,9 @@ public class Screening {
     public Screening setPrice(int price) {
         this.price = price;
         return this;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
