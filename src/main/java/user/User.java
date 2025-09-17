@@ -31,4 +31,12 @@ public class User {
     public PaymentType getPaymentType() {
         return paymentType;
     }
+
+    public boolean usePoint(int point) {
+        if (point > this.userPoint) {
+            throw new RuntimeException("포인트가 부족합니다.");
+        }
+        this.userPoint -= point;
+        return true;
+    }
 }
