@@ -1,5 +1,15 @@
 package seat.enums;
 
 public enum SeatGrade {
-    B,A,S
+    B(12000), A(16000), S(18000);
+
+    private int price;
+
+    SeatGrade(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 }
