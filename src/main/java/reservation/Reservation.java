@@ -1,33 +1,39 @@
 package reservation;
 
-import discount.ReservationDiscount;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import payment.Payment;
+import java.util.List;
+import payment.PaymentType;
 import screening.Screening;
 import seat.Seat;
 
 public class Reservation {
+    private Long userId;
+    private List<ReservationItem> reservationItems;
+    private boolean isPointUsed;
+    private PaymentType paymentType;
 
-    private Screening screening;
-    private Payment payment;
-    private Seat seat;
-    private LocalDateTime reservedStartTime;
-    private LocalDateTime resvedEndTime;
-    private Duration reservationDuration;
-    private ReservationDiscount reservationDiscount;
-
-    public Reservation() {
+    public Reservation(Long userId, List<ReservationItem> reservationItems, boolean isPointUsed,
+        PaymentType paymentType) {
+        this.userId = userId;
+        this.reservationItems = reservationItems;
+        this.isPointUsed = isPointUsed;
+        this.paymentType = paymentType;
     }
 
-    public Reservation(Screening screening, Payment payment, Seat seat,
-        LocalDateTime reservedStartTime, LocalDateTime resvedEndTime,
-        Duration reservationDuration) {
-        this.screening = screening;
-        this.payment = payment;
-        this.seat = seat;
-        this.reservedStartTime = reservedStartTime;
-        this.resvedEndTime = resvedEndTime;
-        this.reservationDuration = reservationDuration;
+    public Long getUserId() {
+        return userId;
     }
+
+    public List<ReservationItem> getReservationItems() {
+        return reservationItems;
+    }
+
+    public boolean isPointUsed() {
+        return isPointUsed;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+
 }
