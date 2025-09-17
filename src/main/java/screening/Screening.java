@@ -29,5 +29,14 @@ public class Screening {
         return seats;
     }
 
+    public Boolean checkSeatOccupied(String row, int col) {
+        for (Seat s : seats) {
+            if (s.getRow().equals(row) && s.getCol() == col) {
+                return s.isOccupied();
+            }
+        }
+        return true;
+    }
+
 
 }
