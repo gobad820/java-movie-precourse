@@ -1,26 +1,34 @@
 package user;
 
+import payment.PaymentType;
+
 public class User {
 
-    // 성명, 연락처, 주소지, 이메일
-    private String name;
-    private String phoneNumber;
-    private String address;
-    private String email;
+    private Long userId;
+    private int userPoint;
+    private int balance;
+    private PaymentType paymentType;
 
-    public User(String address, String phoneNumber, String name) {
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.name = name;
-        this.email = "";
+    public User(Long userId, int userPoint, int balance, PaymentType paymentType) {
+        this.userId = userId;
+        this.userPoint = userPoint;
+        this.balance = balance;
+        this.paymentType = paymentType;
     }
 
-    public User(String name, String phoneNumber, String address, String email) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.email = email;
+    public Long getUserId() {
+        return userId;
     }
 
+    public int getUserPoint() {
+        return userPoint;
+    }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
 }
