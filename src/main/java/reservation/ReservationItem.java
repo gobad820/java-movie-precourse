@@ -3,16 +3,21 @@ package reservation;
 import java.util.List;
 import screening.Screening;
 import seat.Seat;
+import seat.enums.SeatRequest;
 
 public class ReservationItem {
 
     private Screening screening; // 영화 상영
-    private List<Seat> seats; // 좌석
+    private List<Seat> seats; // 좌석 위치
+    private int price;
 
-    public ReservationItem(Screening screening, List<Seat> seats) {
+    public ReservationItem(Screening screening, List<SeatRequest> seatRequests, int price) {
         this.screening = screening;
-        this.seats = seats;
+        seatRequests.stream().forEach(x ->
+            this.seats.add(new Seat(x.row(), x.col(), true, x.seatGrade())));
+        this.price = price;
     }
+
 
     public Screening getScreening() {
         return screening;
@@ -22,4 +27,11 @@ public class ReservationItem {
         return seats;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void discountPrice(int price) {
+        this.price -= price;
+    }
 }
