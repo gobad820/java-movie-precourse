@@ -42,11 +42,15 @@ public class Reservation {
             }
             occupiedScreening.add(r.screening().getScreeningTime());
             int seatsPrice = r.seatGrade().getPrice() * r.seatNumber().size();
-            r.seatNumber().forEach(k -> {
-                seats.add(new SeatRequest(k, r.seatGrade()));
-            });
+            addSeat(r, seats);
             reservationItems.add(new ReservationItem(r.screening(), seats, seatsPrice));
         }
+    }
+
+    private static void addSeat(UserReservationRequest r, ArrayList<SeatRequest> seats) {
+        r.seatNumber().forEach(k -> {
+            seats.add(new SeatRequest(k, r.seatGrade()));
+        });
     }
 
     private static boolean checkNoConflicts(Screening screening, UserReservationRequest request,
@@ -118,10 +122,10 @@ public class Reservation {
 
     private double getDiscountedPrice(double price) {
         if (paymentType == PaymentType.CREDIT_CARD) {
-            price *= 0.95;
+            return price * 0.95;
         }
         if (paymentType == PaymentType.CASH) {
-            price *= 0.98;
+            return price * 0.98;
         }
         return price;
     }
