@@ -11,8 +11,9 @@ import user.dto.UserReservationRequest;
 
 public class Reservation {
 
-    private User user;
-    private List<ReservationItem> reservationItems;
+    private final User user;
+    private final List<ReservationItem> reservationItems = new ArrayList<>();
+
     private int isPointUsed;
     private PaymentType paymentType;
     private Screening screening;
@@ -36,31 +37,40 @@ public class Reservation {
         List<LocalDateTime> occupiedScreening = new ArrayList<>();
         for (UserReservationRequest r : userReservationRequests) {
             ArrayList<SeatRequest> seats = new ArrayList<>();
-            if (hasConflicts(screening, r, occupiedScreening)) {
+            if (!checkNoConflicts(screening, r, occupiedScreening)) {
                 continue;
             }
             occupiedScreening.add(r.screening().getScreeningTime());
             int seatsPrice = r.seatGrade().getPrice() * r.seatNumber().size();
-            r.seatNumber().keySet().forEach(k -> {
-                seats.add(new SeatRequest(k, r.seatNumber().get(k), r.seatGrade()));
+            r.seatNumber().forEach(k -> {
+                seats.add(new SeatRequest(k, r.seatGrade()));
             });
             reservationItems.add(new ReservationItem(r.screening(), seats, seatsPrice));
         }
     }
 
-    private static boolean hasConflicts(Screening screening, UserReservationRequest request,
+    private static boolean checkNoConflicts(Screening screening, UserReservationRequest request,
         List<LocalDateTime> occupiedScreening) {
-        return hasOccupiedSeats(screening, request) || hasTimeConflict(request, occupiedScreening);
+        return checkUnOccupiedSeat(screening, request) && checkNoTimeConflict(request,
+            occupiedScreening);
     }
 
-    private static boolean hasOccupiedSeats(Screening screening, UserReservationRequest request) {
-        return request.seatNumber().keySet().stream().anyMatch(seatNumber ->
-            screening.checkSeatOccupied(seatNumber, request.seatNumber().get(seatNumber)) == true);
+    private static boolean checkUnOccupiedSeat(Screening screening,
+        UserReservationRequest request) {
+        if (request.seatNumber().stream().anyMatch(
+            screening::checkSeatOccupied)
+        ) {
+            throw new RuntimeException("이미 예약된 자석입니다.");
+        }
+        return true;
     }
 
-    private static boolean hasTimeConflict(UserReservationRequest request,
+    private static boolean checkNoTimeConflict(UserReservationRequest request,
         List<LocalDateTime> occupiedScreening) {
-        return occupiedScreening.contains(request.screening().getScreeningTime());
+        if (occupiedScreening.contains(request.screening().getScreeningTime())) {
+            throw new RuntimeException("동일 시간대를 중복 예매할 수 없습니다.");
+        }
+        return true;
     }
 
     public User getUser() {
@@ -80,7 +90,6 @@ public class Reservation {
     }
 
     public void discountTotalPrice() {
-        // ✅ 수정된 버전
         double totalPrice = getPriceTimeDiscount();
         totalPrice = getPriceDayDiscount(totalPrice);
         this.totalPrice = (int) getDiscountedPrice(totalPrice);
@@ -88,7 +97,7 @@ public class Reservation {
     }
 
     private double getPriceDayDiscount(double totalPrice) {
-        if (reservedAt.getDayOfMonth() % 10 == 0) {
+        if (screening.getScreeningTime().getDayOfMonth() % 10 == 0) {
             totalPrice *= 0.9;
         }
         return totalPrice;
@@ -97,7 +106,6 @@ public class Reservation {
     private double getPriceTimeDiscount() {
         double totalPrice = reservationItems.stream()
             .mapToDouble(item -> {
-                // 시간 할인 적용
                 if (item.getScreening().getScreeningTime().getHour() < 11 ||
                     item.getScreening().getScreeningTime().getHour() >= 20) {
                     item.discountPrice(MORNING_AND_NIGHT_DISCOUNT_PRICE);
@@ -109,10 +117,10 @@ public class Reservation {
     }
 
     private double getDiscountedPrice(double price) {
-        if (paymentType == PaymentType.CASH) {
+        if (paymentType == PaymentType.CREDIT_CARD) {
             price *= 0.95;
         }
-        if (paymentType == PaymentType.CREDIT_CARD) {
+        if (paymentType == PaymentType.CASH) {
             price *= 0.98;
         }
         return price;
