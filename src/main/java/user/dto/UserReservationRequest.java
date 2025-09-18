@@ -1,12 +1,12 @@
 package user.dto;
 
-import java.util.Map;
+import java.util.List;
 import screening.Screening;
 import seat.enums.SeatGrade;
 
 public record UserReservationRequest(
     Screening screening,
-    Map<String, Integer> seatNumber,
+    List<String> seatNumber,
     SeatGrade seatGrade
 ) {
 
