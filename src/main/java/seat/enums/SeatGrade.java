@@ -1,7 +1,7 @@
 package seat.enums;
 
 public enum SeatGrade {
-    B(12000), A(16000), S(18000);
+    B(12000), A(15000), S(18000);
 
     private int price;
 
