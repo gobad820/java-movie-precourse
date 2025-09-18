@@ -100,14 +100,14 @@ public class Reservation {
 
     }
 
-    private double getPriceDayDiscount(double totalPrice) {
+    public double getPriceDayDiscount(double totalPrice) {
         if (screening.getScreeningTime().getDayOfMonth() % 10 == 0) {
             totalPrice *= 0.9;
         }
         return totalPrice;
     }
 
-    private double getPriceTimeDiscount() {
+    public double getPriceTimeDiscount() {
         double totalPrice = reservationItems.stream()
             .mapToDouble(item -> {
                 if (item.getScreening().getScreeningTime().getHour() < 11 ||

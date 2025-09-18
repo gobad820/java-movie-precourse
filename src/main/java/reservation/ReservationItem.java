@@ -33,6 +33,8 @@ public class ReservationItem {
     }
 
     public void discountPrice(int price) {
-        this.price -= price;
+        for(Seat s: seats){
+            this.price -= price;
+        }
     }
 }
